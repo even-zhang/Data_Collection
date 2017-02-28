@@ -4,18 +4,6 @@
 <meta charset="utf-8">
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
 </script>
-<script>
-$(":button").click(function(){
-    $.ajax({
-        url:"/seg/",
-        type: 'GET',
-        dataType: 'json',
-        data:{"over":"yes"},
-
-    })
-})
-
-</script>
 </head>
 <body>
 <p>请输入相关信息</p>
@@ -25,13 +13,6 @@ $(":button").click(function(){
     数据采集: <input type="text" name="sentence"> <br>
     uid: <input type="text" name="uid"> <br>
     <input type="submit" value="输入">
-
-</form>
-
-<form action="/response/" method="get">
-
-    uid: <input type="text" name="uid"> <br>
-    <input type="submit" value="提交">
 
 </form>
 

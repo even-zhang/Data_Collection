@@ -52,10 +52,7 @@ def terms(request):
     uid = str(uid)
     term = request.GET['terms']
     term = term.replace(' ', '')
-    #term = term.split(',')
     sentence = ''
-    #mz = sqlite3.connect(r'C:\Users\User\Desktop\py\data_collection\db\mz.db')
-    #cu = mz.cursor()
     try:
         cu.execute("insert into grid (uid, terms, sentence) VALUES(?, ?, ?)", (uid, term, sentence))
     except:
@@ -81,38 +78,5 @@ def seg(request):
         terms = cu.fetchall()
         term = terms[0][0].split(',')
         dic = location(term, sentence)
-        for key in dic:
-            sql1 = "select " + key + " from grid"
-            sql2 = "alter table grid add COLUMN " + key + " TEXT"
-            sql3 = "update grid set " + key + "=\'" + dic[key] + \
-                    "\' where uid =\'" + uid + "\'"
-            try:
-                cu.execute(sql1)
-                cu.execute(sql3)
-                mz.commit()
-            except:
-                cu.execute(sql2)
-                cu.execute(sql3)
-                mz.commit()
-    mz.close()
-    return HttpResponse('success')
-
-
-def response(request):
-    mz = sqlite3.connect(r'C:\Users\User\Desktop\py\data_collection\db\mz.db')
-    cu = mz.cursor()
-    i = 3
-    dic = {}
-    uid = request.GET['uid']
-    cu.execute("select * from grid where uid =?", (uid,))
-    details = cu.fetchall()
-    cu.execute("pragma table_info([grid])")
-    terms = cu.fetchall()
-    while i < len(details[0]):
-        if details[0][i]:
-            dic[terms[i][1]] = details[0][i]
-        i += 1
-    mz.commit()
     mz.close()
     return JsonResponse(dic, json_dumps_params={'ensure_ascii': False}, )
-
